@@ -3,7 +3,7 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
             
             <div class="flex justify-between items-center mb-6">
-                <h2 class="text-2xl font-extrabold text-gray-900 uppercase tracking-wide">Lịch sử đặt xe</h2>
+                <h2 class="text-2xl font-bold text-gray-900 uppercase tracking-wide">Lịch sử đặt xe</h2>
             </div>
 
             @forelse($bookings as $booking)

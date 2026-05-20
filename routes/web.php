@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\AdminMiddleware;
 use App\Http\Controllers\HomeController; 
 use App\Http\Controllers\BookingController;
+use App\Http\Controllers\Admin\BookingController as AdminBookingController;
 
 Route::get('/', function () {
     return redirect()->route('login');
@@ -22,6 +23,7 @@ Route::get('/xe/{id}', [HomeController::class, 'show'])
 Route::post('/dat-xe', [BookingController::class, 'store'])
     ->middleware(['auth', 'verified'])
     ->name('client.book.store');
+// Route cho thanh toán
 Route::get('/thanh-toan/{id}', [BookingController::class, 'checkout'])
     ->middleware(['auth', 'verified'])
     ->name('client.checkout');
@@ -44,6 +46,8 @@ Route::get('/admin/dashboard', function () {
     return view('admin.dashboard'); 
     })->name('admin.dashboard');
 });
+Route::get('/admin/bookings', [AdminBookingController::class, 'index'])->name('admin.bookings.index');
+Route::patch('/admin/bookings/{id}/status', [AdminBookingController::class, 'updateStatus'])->name('admin.bookings.update_status');
 
 
 require __DIR__.'/auth.php';
