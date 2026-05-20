@@ -23,31 +23,48 @@
                             </div>
                         </div>
 
-                        <div class="mt-4 pt-4 border-t border-gray-100">
+                        <div class="mt-4 pt-4 border-t border-gray-100" 
+                             x-data="{ 
+                                profilePhone: '{{ Auth::user()->phone ?? '' }}', 
+                                currentPhone: '{{ old('customer_phone', Auth::user()->phone ?? '') }}',
+                                showCheckbox: false,
+                                timeout: null,
+                                checkPhone() {
+                                    clearTimeout(this.timeout);
+                                    // đợi 1 giây 
+                                    this.timeout = setTimeout(() => {
+                                        // hiện checkbox nếu số hiện tại khác số trong hồ sơ
+                                        this.showCheckbox = (this.currentPhone.trim() !== this.profilePhone.trim()) && (this.currentPhone.trim() !== '');
+                                    }, 1000);
+                                }
+                             }"
+                             x-init="checkPhone()"
+                        >
                             <label for="customer_phone" class="block text-sm font-bold text-gray-700 mb-2">Số điện thoại liên hệ <span class="text-red-500">*</span></label>
                             
-                            @if(Auth::user()->phone)
-                                <input type="text" name="customer_phone" value="{{ Auth::user()->phone }}" readonly class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-700 font-semibold focus:ring-0 cursor-not-allowed">
-                                <p class="mt-2 text-xs text-green-600 flex items-center gap-1">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> 
-                                    Sử dụng số điện thoại từ hồ sơ của bạn.
-                                </p>
-                            @else
-                                <input type="text" name="customer_phone" id="customer_phone" value="{{ old('customer_phone') }}" placeholder="Nhập số điện thoại để nhận xe..." required class="w-full px-4 py-3 bg-white border border-gray-300 rounded-xl text-gray-900 focus:ring-blue-500 focus:border-blue-500">
-                                @error('customer_phone')
-                                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                                @enderror
-                                
-                                <label class="flex items-start mt-4 cursor-pointer group">
-                                    <div class="flex items-center h-5">
-                                        <input type="checkbox" name="save_phone_to_profile" value="1" class="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
-                                    </div>
-                                    <div class="ml-2">
-                                        <span class="block text-sm font-medium text-gray-700 group-hover:text-blue-600 transition">Lưu số điện thoại này vào hồ sơ cá nhân</span>
-                                        <span class="block text-xs text-gray-500 mt-0.5">Tiết kiệm thời gian, không cần nhập lại ở các lần đặt xe tiếp theo.</span>
-                                    </div>
-                                </label>
-                            @endif
+                            <input type="text" 
+                                   name="customer_phone" 
+                                   id="customer_phone" 
+                                   x-model="currentPhone"
+                                   @input="checkPhone()"
+                                   placeholder="Nhập số điện thoại để nhận xe..." 
+                                   required 
+                                   class="w-full px-4 py-3 bg-white border border-gray-300 rounded-xl text-gray-900 focus:ring-blue-500 focus:border-blue-500 transition-colors">
+                                   
+                            @error('customer_phone')
+                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                            @enderror
+                            
+                            <label x-show="showCheckbox" x-collapse class="flex items-start mt-4 cursor-pointer group bg-blue-50 p-4 rounded-xl border border-blue-200 shadow-sm transition-all">
+                                <div class="flex items-center h-5 mt-0.5">
+                                    <input type="checkbox" name="save_phone_to_profile" value="1" class="w-5 h-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+                                </div>
+                                <div class="ml-3">
+                                    <span class="block text-sm font-extrabold text-blue-900 group-hover:text-blue-700 transition">Số điện thoại mới ư?</span>
+                                    <span class="block text-xs text-blue-700 mt-1">Bạn có muốn lưu số này cho những lần đặt xe tiếp theo không?</span>
+                                </div>
+                            </label>
+                            
                         </div>
                     </div>
                 </div>

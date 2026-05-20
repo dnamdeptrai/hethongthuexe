@@ -5,7 +5,13 @@
             <div class="flex justify-between items-center mb-6">
                 <h2 class="text-2xl font-bold text-gray-900 uppercase tracking-wide">Lịch sử đặt xe</h2>
             </div>
-
+            <div id="success-alert" class="{{ session('success') ? 'flex' : 'hidden' }} mb-6 p-4 bg-green-50 border border-green-200 text-green-700 rounded-2xl font-semibold shadow-sm items-center justify-between animate-fade-in transition-all">
+                <div class="flex items-center gap-2">
+                    <svg class="w-6 h-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    <span id="success-message">{{ session('success') }}</span>
+                </div>
+                <button onclick="document.getElementById('success-alert').classList.add('hidden')" class="text-green-500 hover:text-green-700 text-2xl px-2">&times;</button>
+            </div>
             @forelse($bookings as $booking)
                 <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden flex flex-col md:flex-row">
                     <div class="md:w-1/4 h-48 md:h-auto bg-gray-200 relative">
@@ -87,11 +93,26 @@
                     <div class="flex justify-between items-center"><span class="text-gray-500">Nội dung:</span> <strong class="text-gray-900 text-right font-mono">Thanh toan don xe {{ session('qr_order_id') }}</strong></div>
                 </div>
 
-                <button onclick="document.getElementById('qr_modal').remove()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3.5 px-4 rounded-xl transition shadow-md hover:shadow-lg">
+                <button onclick="closeQRAndShowSuccess()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3.5 px-4 rounded-xl transition shadow-md hover:shadow-lg">
                     Tôi đã chuyển khoản xong
                 </button>
                 <p class="mt-4 text-[11px] text-gray-400 leading-tight">* Hệ thống sẽ đối soát tự động. Vui lòng không làm mới trang trong quá trình giao dịch.</p>
             </div>
         </div>
     @endif
+    <script>
+        function closeQRAndShowSuccess() {
+            const modal = document.getElementById('qr_modal');
+            if(modal) modal.remove();
+          
+            const alertBox = document.getElementById('success-alert');
+            const alertMsg = document.getElementById('success-message');
+            
+            if(alertBox && alertMsg) {
+                alertMsg.innerText = 'Đặt thuê xe thành công, nhân viên sẽ gọi điện để xác nhận với bạn trong thời gian sớm nhất!';
+                alertBox.classList.remove('hidden');
+                alertBox.classList.add('flex');
+            }
+        }
+    </script>
 </x-app-layout>

@@ -62,19 +62,34 @@ class BookingController extends Controller
     {
         $booking = Booking::where('user_id', auth()->id())->findOrFail($id);
 
+        // Validate
         $request->validate([
-            'payment_method' => 'required|in:cod,bank_transfer'
+            'payment_method' => 'required|in:cod,bank_transfer',
+            'customer_phone' => 'required|string|max:15'
+        ], [
+            'customer_phone.required' => 'Vui lòng nhập số điện thoại để chúng tôi liên hệ giao xe.'
         ]);
 
+        // Lưu số điện thoại riêng cho đơn hàng này
+        $booking->customer_phone = $request->customer_phone;
+        $booking->save();
+
+        //Lấy tài khoản đang đăng nhập và lưu số điện thoại
+        if ($request->has('save_phone_to_profile')) {
+            $user = \App\Models\User::find(auth()->id());
+            $user->phone = $request->customer_phone;
+            $user->save();
+        }
+
+        // Xử lý chuyển hướng
         if ($request->payment_method === 'bank_transfer') {
             return redirect()->route('client.bookings.history')->with([
-                'success' => 'Vui lòng quét mã QR để hoàn tất thanh toán!',
-                'show_qr' => true, 
+                'show_qr' => true,
                 'qr_amount' => $booking->total_price,
                 'qr_order_id' => $booking->id
             ]);
         } else {
-            return redirect()->route('client.bookings.history')->with('success', '🎉 Bạn đã đặt xe thành công. Vui lòng chuẩn bị tiền mặt khi đến nhận xe!');
+            return redirect()->route('client.bookings.history')->with('success', ' Đặt thuê xe thành công, nhân viên sẽ gọi điện để xác nhận với bạn trong thời gian sớm nhất!');
         }
     }
     // hiện lịch sử
