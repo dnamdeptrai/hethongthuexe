@@ -13,7 +13,14 @@ Route::get('/', function () {
 Route::get('/dashboard', [HomeController::class, 'index'])
     ->middleware(['auth', 'verified'])
     ->name('client.dashboard');
-
+// Route chi tiết xe
+Route::get('/xe/{id}', [HomeController::class, 'show'])
+    ->middleware(['auth', 'verified'])
+    ->name('client.car.detail');
+// Route nhận dữ liệu đặt xe
+Route::post('/dat-xe', [BookingController::class, 'store'])
+    ->middleware(['auth', 'verified'])
+    ->name('client.book.store');
 
 Route::get('/gioi-thieu', function () { return view('client.about'); })->middleware(['auth'])->name('client.about');
 Route::get('/dich-vu', function () { return view('client.services'); })->middleware(['auth'])->name('client.services');

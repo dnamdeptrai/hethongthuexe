@@ -53,9 +53,9 @@
                                         {{ number_format($car->price_per_day, 0, ',', '.') }}đ<span class="text-sm text-gray-500 font-normal">/ngày</span>
                                     </div>
                                 </div>
-                                <button class="bg-gray-900 hover:bg-black text-white px-5 py-2.5 rounded-xl text-sm font-semibold transition">
+                                <a href="{{ route('client.car.detail', $car->id) }}" class="bg-gray-900 hover:bg-black text-white px-5 py-2.5 rounded-xl text-sm font-semibold transition inline-block text-center">
                                     Đặt ngay
-                                </button>
+                                </a>
                             </div>
                         </div>
                     </div>

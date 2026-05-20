@@ -56,4 +56,9 @@ class HomeController extends Controller
         
         return view('client.home_page', compact('cars', 'categories', 'brands'));
     }
+    public function show($id)
+    {
+        $car = Car::findOrFail($id);
+        return view('client.car_detail', compact('car'));
+    }
 }
