@@ -22,6 +22,7 @@ return new class extends Migration
         $table->integer('seats'); // Số ghế ngồi
         $table->decimal('price_per_day', 12, 2); // Giá thuê theo ngày
         $table->string('status')->default('available'); // Trạng thái
+        $table->timestamps(); 
     });
 }
 

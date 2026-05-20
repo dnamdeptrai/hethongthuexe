@@ -3,17 +3,18 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\AdminMiddleware;
-use App\Models\Car;
+use App\Http\Controllers\HomeController; 
 
 Route::get('/', function () {
     return redirect()->route('login');
 });
 
-// Route cho Client
-Route::get('/dashboard', function () {
-    $cars = Car::where('status', 'Sẵn sàng')->get(); 
-        return view('client.home_page', compact('cars')); 
-})->middleware(['auth', 'verified'])->name('client.dashboard');
+// Route cho Client 
+Route::get('/dashboard', [HomeController::class, 'index'])
+    ->middleware(['auth', 'verified'])
+    ->name('client.dashboard');
+
+
 Route::get('/gioi-thieu', function () { return view('client.about'); })->middleware(['auth'])->name('client.about');
 Route::get('/dich-vu', function () { return view('client.services'); })->middleware(['auth'])->name('client.services');
 Route::get('/lien-he', function () { return view('client.contact'); })->middleware(['auth'])->name('client.contact');
