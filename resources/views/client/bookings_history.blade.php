@@ -2,8 +2,8 @@
     <div class="py-12 bg-gray-50 min-h-screen">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
             
-            <div class="flex justify-between items-center mb-6">
-                <h2 class="text-2xl font-bold text-gray-900 uppercase tracking-wide">Lịch sử đặt xe</h2>
+            <div class="p-6">
+                <h2 class="text-2xl font-bold text-gray-900 tracking-wide">LỊCH SỬ ĐẶT XE</h2>
             </div>
             <div id="success-alert" class="{{ session('success') ? 'flex' : 'hidden' }} mb-6 p-4 bg-green-50 border border-green-200 text-green-700 rounded-2xl font-semibold shadow-sm items-center justify-between animate-fade-in transition-all">
                 <div class="flex items-center gap-2">
