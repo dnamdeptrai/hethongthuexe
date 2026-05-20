@@ -4,18 +4,33 @@
             <div class="flex">
                 <div class="shrink-0 flex items-center">
                     <a href="{{ route(Auth::user()->role === 'admin' ? 'admin.dashboard' : 'client.dashboard') }}">
-                        <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
+                        <img src="{{ asset('images/logo.png') }}" alt="Logo" class="block h-16 w-auto object-contain drop-shadow-sm">
                     </a>
                 </div>
 
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route(Auth::user()->role === 'admin' ? 'admin.dashboard' : 'client.dashboard')" :active="request()->routeIs(Auth::user()->role === 'admin' ? 'admin.dashboard' : 'client.dashboard')">
-                        {{ __('Dashboard') }}
+                <div class="hidden space-x-10 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link :href="route(Auth::user()->role === 'admin' ? 'admin.dashboard' : 'client.dashboard')" :active="request()->routeIs('client.dashboard') || request()->routeIs('admin.dashboard')">
+                        {{ __('Trang chủ') }}
                     </x-nav-link>
+
+                    @if(Auth::user()->role !== 'admin')
+                        <x-nav-link :href="route('client.about')" :active="request()->routeIs('client.about')">
+                            {{ __('Giới thiệu') }}
+                        </x-nav-link>
+
+                        <x-nav-link :href="route('client.services')" :active="request()->routeIs('client.services')">
+                            {{ __('Dịch vụ') }}
+                        </x-nav-link>
+
+                        <x-nav-link :href="route('client.contact')" :active="request()->routeIs('client.contact')">
+                            {{ __('Liên hệ') }}
+                        </x-nav-link>
+                    @endif
                 </div>
             </div>
 
             <div class="hidden sm:flex sm:items-center sm:ms-6">
+                
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
                         <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
@@ -31,7 +46,7 @@
 
                     <x-slot name="content">
                         <x-dropdown-link :href="route('profile.edit')">
-                            {{ __('Profile') }}
+                            {{ __('Hồ sơ cá nhân') }}
                         </x-dropdown-link>
 
                         <form method="POST" action="{{ route('logout') }}">
@@ -40,7 +55,7 @@
                             <x-dropdown-link :href="route('logout')"
                                     onclick="event.preventDefault();
                                                 this.closest('form').submit();">
-                                {{ __('Log Out') }}
+                                {{ __('Đăng xuất') }}
                             </x-dropdown-link>
                         </form>
                     </x-slot>
@@ -60,9 +75,23 @@
 
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link :href="route(Auth::user()->role === 'admin' ? 'admin.dashboard' : 'client.dashboard')" :active="request()->routeIs(Auth::user()->role === 'admin' ? 'admin.dashboard' : 'client.dashboard')">
-                {{ __('Dashboard') }}
+            <x-responsive-nav-link :href="route(Auth::user()->role === 'admin' ? 'admin.dashboard' : 'client.dashboard')" :active="request()->routeIs('client.dashboard') || request()->routeIs('admin.dashboard')">
+                {{ __('Trang chủ') }}
             </x-responsive-nav-link>
+            
+            @if(Auth::user()->role !== 'admin')
+                <x-responsive-nav-link :href="route('client.about')" :active="request()->routeIs('client.about')">
+                    {{ __('Giới thiệu') }}
+                </x-responsive-nav-link>
+
+                <x-responsive-nav-link :href="route('client.services')" :active="request()->routeIs('client.services')">
+                    {{ __('Dịch vụ') }}
+                </x-responsive-nav-link>
+
+                <x-responsive-nav-link :href="route('client.contact')" :active="request()->routeIs('client.contact')">
+                    {{ __('Liên hệ') }}
+                </x-responsive-nav-link>
+            @endif
         </div>
 
         <div class="pt-4 pb-1 border-t border-gray-200">
@@ -73,7 +102,7 @@
 
             <div class="mt-3 space-y-1">
                 <x-responsive-nav-link :href="route('profile.edit')">
-                    {{ __('Profile') }}
+                    {{ __('Hồ sơ cá nhân') }}
                 </x-responsive-nav-link>
 
                 <form method="POST" action="{{ route('logout') }}">
@@ -82,7 +111,7 @@
                     <x-responsive-nav-link :href="route('logout')"
                             onclick="event.preventDefault();
                                         this.closest('form').submit();">
-                        {{ __('Log Out') }}
+                        {{ __('Đăng xuất') }}
                     </x-responsive-nav-link>
                 </form>
             </div>

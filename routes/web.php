@@ -14,6 +14,9 @@ Route::get('/dashboard', function () {
     $cars = Car::where('status', 'Sẵn sàng')->get(); 
         return view('client.home_page', compact('cars')); 
 })->middleware(['auth', 'verified'])->name('client.dashboard');
+Route::get('/gioi-thieu', function () { return view('client.about'); })->middleware(['auth'])->name('client.about');
+Route::get('/dich-vu', function () { return view('client.services'); })->middleware(['auth'])->name('client.services');
+Route::get('/lien-he', function () { return view('client.contact'); })->middleware(['auth'])->name('client.contact');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
