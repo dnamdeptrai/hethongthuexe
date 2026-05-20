@@ -26,6 +26,9 @@
                         <x-nav-link :href="route('client.contact')" :active="request()->routeIs('client.contact')">
                             {{ __('Liên hệ') }}
                         </x-nav-link>
+                        <x-nav-link :href="route('client.bookings.history')" :active="request()->routeIs('client.bookings.history')">
+                            {{ __('Lịch sử') }}
+                        </x-nav-link>
                     @endif
                 </div>
             </div>
@@ -97,6 +100,9 @@
                 </x-responsive-nav-link>
                 <x-responsive-nav-link :href="route('client.contact')" :active="request()->routeIs('client.contact')">
                     {{ __('Liên hệ') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('client.bookings.history')" :active="request()->routeIs('client.bookings.history')">
+                    {{ __('Lịch sử') }}
                 </x-responsive-nav-link>
             @endif
         </div>
