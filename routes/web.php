@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\AdminMiddleware;
+use App\Models\Car;
 
 Route::get('/', function () {
     return redirect()->route('login');
@@ -10,7 +11,8 @@ Route::get('/', function () {
 
 // Route cho Client
 Route::get('/dashboard', function () {
-    return view('client.dashboard'); 
+    $cars = Car::where('status', 'Sẵn sàng')->get(); 
+        return view('client.home_page', compact('cars')); 
 })->middleware(['auth', 'verified'])->name('client.dashboard');
 
 Route::middleware('auth')->group(function () {
