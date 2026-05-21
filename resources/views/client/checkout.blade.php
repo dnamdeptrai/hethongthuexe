@@ -1,12 +1,14 @@
 <x-app-layout>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
     <div class="py-8 sm:py-12 bg-gray-50 min-h-screen">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-8">
             
             <h2 class="text-2xl sm:text-3xl font-extrabold text-gray-900 uppercase tracking-wide px-4 sm:px-0">Thanh toán & Xác nhận</h2>
 
-            <form method="POST" action="{{ route('client.process_payment', $booking->id) }}" x-data="{ wantDelivery: false, basePrice: {{ $booking->total_price }}, deliveryFee: 200000 }" class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start px-4 sm:px-0">
+            <form method="POST" action="{{ route('client.process_payment', $booking->id) }}" x-data="mapCheckoutComponent()" class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start px-4 sm:px-0">
                 @csrf
-
                 <div class="lg:col-span-7 space-y-6">
                     
                     <div class="bg-white p-6 sm:p-8 rounded-3xl shadow-sm border border-gray-100">
@@ -82,13 +84,16 @@
                                     <input type="text" 
                                            name="delivery_address" 
                                            id="delivery_address" 
-                                           placeholder="Nhập chi tiết số nhà, tên đường, phường/xã..." 
+                                           x-model="deliveryAddress"
+                                           placeholder="Nhập chi tiết số nhà, tên đường, phường/xã,..." 
                                            class="flex-1 px-4 py-3 bg-white border border-gray-300 rounded-xl text-gray-900 focus:ring-blue-500 focus:border-blue-500 transition-colors" 
                                            :required="wantDelivery">
                                            
-                                    <button type="button" class="sm:w-auto w-full flex items-center justify-center gap-2 bg-white hover:bg-gray-50 text-blue-700 font-bold px-5 py-3 rounded-xl border border-blue-200 shadow-sm transition-all hover:-translate-y-0.5">
+                                    <button type="button" 
+                                            @click="showMapModal = true; initMap();"
+                                            class="sm:w-auto w-full flex items-center justify-center gap-2 bg-white hover:bg-gray-50 text-blue-700 font-bold px-5 py-3 rounded-xl border border-blue-200 shadow-sm transition-all hover:-translate-y-0.5">
                                         <svg class="w-5 h-5 text-red-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path></svg>
-                                        Chọn từ Map
+                                        Chọn từ bản đồ
                                     </button>
                                 </div>
                             </div>
@@ -114,7 +119,7 @@
                             
                             <div class="pt-4 border-t border-blue-200">
                                 <div class="flex flex-wrap items-center gap-3">
-                                    <strong class="text-base text-blue-900">Địa điểm nhận xe (nếu không chọn giao tận nới):</strong>
+                                    <strong class="text-base text-blue-900">Địa điểm bãi xe (nếu không chọn giao tận nơi):</strong>
                                     <a href="https://www.google.com/maps/search/?api=1&query=Bãi+xe+Đại+học+Phenikaa,+Hà+Đông,+Hà+Nội" 
                                        target="_blank" 
                                        rel="noopener noreferrer"
@@ -163,8 +168,8 @@
                         </div>
 
                         <div x-show="wantDelivery" x-collapse class="flex justify-between items-center text-sm text-gray-600 pt-1">
-                            <span class="flex items-center text-gray-500 font-medium">Phụ phí giao xe:</span>
-                            <span class="font-bold text-gray-900 ">200.000đ</span>
+                            <span class="flex items-center gap-1 text-gray-6=500 font-medium">Phụ phí giao xe:</span>
+                            <span class="font-bold text-gray-900">200.000đ</span>
                         </div>
                     </div>
 
@@ -202,8 +207,151 @@
                     </div>
                 </div>
 
-            </form>
+                <div x-show="showMapModal" 
+                     class="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm"
+                     x-transition
+                     x-cloak>
+                    
+                    <div class="bg-white rounded-3xl max-w-5xl w-full p-6 shadow-2xl relative flex flex-col h-[85vh]" @click.away="showMapModal = false; searchResults = []">
+                        
+                        <div class="flex items-center gap-4 mb-4 relative z-[10000]">
+                            <div class="relative flex-1">
+                                <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                                    <svg x-show="!isSearching" class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                                    <svg x-show="isSearching" class="w-5 h-5 text-blue-500 animate-spin" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+                                </div>
+                                <input type="text" 
+                                       x-model="searchQuery" 
+                                       @input="handleSearch()"
+                                       placeholder="Nhập tên đường, phường, quận bạn muốn tìm..." 
+                                       class="w-full pl-11 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 focus:ring-blue-500 focus:border-blue-500 focus:bg-white shadow-sm transition-all"
+                                       autocomplete="off">
+                                
+                                <button type="button" x-show="searchQuery.length > 0" @click="searchQuery = ''; searchResults = [];" class="absolute inset-y-0 right-0 pr-4 flex items-center text-gray-400 hover:text-gray-600">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                                </button>
 
+                                <ul x-show="searchResults.length > 0" x-transition.opacity 
+                                    class="absolute w-full mt-2 bg-white border border-gray-100 rounded-xl shadow-xl max-h-60 overflow-y-auto divide-y divide-gray-50">
+                                    <template x-for="(res, index) in searchResults" :key="index">
+                                        <li @click="selectLocation(res)" class="p-4 hover:bg-blue-50 cursor-pointer transition-colors flex items-start gap-3">
+                                            <svg class="w-5 h-5 text-gray-400 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                                            <span class="text-sm text-gray-700 font-medium" x-text="res.display_name"></span>
+                                        </li>
+                                    </template>
+                                </ul>
+                            </div>
+
+                            <button type="button" @click="showMapModal = false; searchResults = []" class="flex-shrink-0 text-gray-400 hover:text-red-500 bg-gray-100 hover:bg-red-50 rounded-full p-3 transition-colors shadow-sm">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                            </button>
+                        </div>
+
+                        <div id="map_canvas" class="w-full flex-1 rounded-2xl border-2 border-gray-200 shadow-inner overflow-hidden z-0 relative" @click="searchResults = []"></div>
+
+                        <div class="mt-4 p-4 bg-blue-50 rounded-xl border border-blue-200 flex justify-between items-center z-10">
+                            <div class="flex-1 pr-4">
+                                <span class="text-xs font-bold text-blue-700 uppercase block mb-1">Điểm đến đã chọn:</span>
+                                <p class="text-base font-semibold text-gray-900 leading-snug" x-text="deliveryAddress || 'Chưa chọn vị trí nào...'"></p>
+                            </div>
+                            <div>
+                                <button type="button" 
+                                        @click="showMapModal = false; searchResults = []" 
+                                        class="bg-blue-600 hover:bg-blue-700 text-white font-bold px-8 py-3 rounded-xl shadow-md transition-all hover:scale-105 whitespace-nowrap">
+                                    Chọn
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
+    <script>
+        function mapCheckoutComponent() {
+            return {
+                wantDelivery: false, 
+                basePrice: {{ $booking->total_price }}, 
+                deliveryFee: 200000,
+                deliveryAddress: '{!! addslashes(old('delivery_address', '')) !!}',
+                showMapModal: false,
+                map: null,
+                marker: null,
+                
+                searchQuery: '',
+                searchResults: [],
+                searchTimeout: null,
+                isSearching: false,
+
+                handleSearch() {
+                    clearTimeout(this.searchTimeout);
+                        if (this.searchQuery.trim().length < 2) {
+                        this.searchResults = [];
+                        return;
+                    }
+                    this.isSearching = true;
+                    this.searchTimeout = setTimeout(() => {
+                        fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(this.searchQuery)}&accept-language=vi&countrycodes=vn&limit=5`)
+                            .then(res => res.json())
+                            .then(data => {
+                                this.searchResults = data;
+                                this.isSearching = false;
+                            })
+                            .catch(err => {
+                                console.error('Lỗi tìm kiếm:', err);
+                                this.isSearching = false;
+                            });
+                    }, 500);
+                },
+
+                selectLocation(loc) {
+                    const lat = parseFloat(loc.lat);
+                    const lng = parseFloat(loc.lon);
+                    this.map.setView([lat, lng], 18);
+                    if (this.marker) {
+                        this.marker.setLatLng([lat, lng]);
+                    } else {
+                        this.marker = L.marker([lat, lng]).addTo(this.map);
+                    }
+                    this.deliveryAddress = loc.display_name;
+                    if(!this.searchQuery.includes(loc.name)) {
+                        this.searchQuery = loc.display_name;
+                    }
+                    this.searchResults = []; 
+                },
+
+                initMap() {
+                    setTimeout(() => {
+                        if (!this.map) {
+                            this.map = L.map('map_canvas').setView([20.9631, 105.7468], 16);
+                            L.tileLayer('https://mt1.google.com/vt/lyrs=y&x={x}&y={y}&z={z}', {
+                                maxZoom: 20,
+                                attribution: '© Google Maps'
+                            }).addTo(this.map);
+                            this.map.on('click', (e) => {
+                                const lat = e.latlng.lat;
+                                const lng = e.latlng.lng;
+                                
+                                if (this.marker) {
+                                    this.marker.setLatLng(e.latlng);
+                                } else {
+                                    this.marker = L.marker(e.latlng).addTo(this.map);
+                                }
+                                fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&accept-language=vi`)
+                                    .then(res => res.json())
+                                    .then(data => {
+                                        if (data && data.display_name) {
+                                            this.deliveryAddress = data.display_name;
+                                            this.searchQuery = data.display_name; 
+                                        }
+                                    });
+                            });
+                        } else {
+                            this.map.invalidateSize();
+                        }
+                    }, 300);
+                }
+            }
+        }
+    </script>
 </x-app-layout>
