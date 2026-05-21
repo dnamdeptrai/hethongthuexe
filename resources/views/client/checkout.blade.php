@@ -4,14 +4,14 @@
             
             <h2 class="text-2xl sm:text-3xl font-extrabold text-gray-900 uppercase tracking-wide px-4 sm:px-0">Thanh toán & Xác nhận</h2>
 
-            <form method="POST" action="{{ route('client.process_payment', $booking->id) }}" class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start px-4 sm:px-0">
+            <form method="POST" action="{{ route('client.process_payment', $booking->id) }}" x-data="{ wantDelivery: false, basePrice: {{ $booking->total_price }}, deliveryFee: 200000 }" class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start px-4 sm:px-0">
                 @csrf
 
                 <div class="lg:col-span-7 space-y-6">
-                    <div class="bg-white p-6 sm:p-8 rounded-3xl shadow-sm border border-gray-100">
-
+                    
                     <div class="bg-white p-6 sm:p-8 rounded-3xl shadow-sm border border-gray-100">
                         <h3 class="text-xl font-bold text-gray-900 mb-6">Thông tin người đặt</h3>
+                        
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <div>
                                 <label class="block text-xs font-bold uppercase text-gray-500 mb-2">Họ và tên</label>
@@ -31,9 +31,7 @@
                                 timeout: null,
                                 checkPhone() {
                                     clearTimeout(this.timeout);
-                                    // đợi 1 giây 
                                     this.timeout = setTimeout(() => {
-                                        // hiện checkbox nếu số hiện tại khác số trong hồ sơ
                                         this.showCheckbox = (this.currentPhone.trim() !== this.profilePhone.trim()) && (this.currentPhone.trim() !== '');
                                     }, 1000);
                                 }
@@ -64,14 +62,44 @@
                                     <span class="block text-xs text-blue-700 mt-1">Bạn có muốn lưu số này cho những lần đặt xe tiếp theo không?</span>
                                 </div>
                             </label>
-                            
                         </div>
+
+                        <div class="mt-6 pt-6 border-t border-gray-100">
+                            <label class="flex items-start cursor-pointer group bg-gray-50 hover:bg-blue-50/50 p-4 rounded-xl border border-gray-200 hover:border-blue-300 transition-all">
+                                <div class="flex items-center h-5 mt-0.5">
+                                    <input type="checkbox" name="is_delivery" value="1" x-model="wantDelivery" class="w-5 h-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+                                </div>
+                                <div class="ml-3">
+                                    <span class="block text-sm font-extrabold text-gray-900 group-hover:text-blue-700 transition">Tôi muốn giao xe tận nơi</span>
+                                    <span class="block text-xs text-gray-500 mt-1">Chúng tôi sẽ giao xe đến tận nhà bạn (Phụ phí mặc định: +200.000đ).</span>
+                                </div>
+                            </label>
+
+                            <div x-show="wantDelivery" x-collapse class="mt-4">
+                                <label for="delivery_address" class="block text-sm font-bold text-gray-700 mb-2">Địa chỉ nhận xe <span class="text-red-500">*</span></label>
+                                
+                                <div class="flex flex-col sm:flex-row gap-3">
+                                    <input type="text" 
+                                           name="delivery_address" 
+                                           id="delivery_address" 
+                                           placeholder="Nhập chi tiết số nhà, tên đường, phường/xã..." 
+                                           class="flex-1 px-4 py-3 bg-white border border-gray-300 rounded-xl text-gray-900 focus:ring-blue-500 focus:border-blue-500 transition-colors" 
+                                           :required="wantDelivery">
+                                           
+                                    <button type="button" class="sm:w-auto w-full flex items-center justify-center gap-2 bg-white hover:bg-gray-50 text-blue-700 font-bold px-5 py-3 rounded-xl border border-blue-200 shadow-sm transition-all hover:-translate-y-0.5">
+                                        <svg class="w-5 h-5 text-red-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path></svg>
+                                        Chọn từ Map
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
-                </div>
-                <div class="bg-blue-50 p-6 sm:p-8 rounded-3xl shadow-sm border border-blue-100 mt-6 animate-fade-in">
+
+                    <div class="bg-blue-50 p-6 sm:p-8 rounded-3xl shadow-sm border border-blue-100 mt-6 animate-fade-in">
                         <h3 class="text-xl font-bold text-blue-900 mb-4 flex items-center gap-2">
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                            Hướng dẫn nhận xe
+                            Hướng dẫn nhận xe tại bãi
                         </h3>
                         
                         <div class="space-y-5 text-sm text-blue-800">
@@ -86,19 +114,21 @@
                             
                             <div class="pt-4 border-t border-blue-200">
                                 <div class="flex flex-wrap items-center gap-3">
-                                    <strong class="text-base text-blue-900">Địa điểm giao nhận xe:</strong>
+                                    <strong class="text-base text-blue-900">Địa điểm nhận xe (nếu không chọn giao tận nới):</strong>
                                     <a href="https://www.google.com/maps/search/?api=1&query=Bãi+xe+Đại+học+Phenikaa,+Hà+Đông,+Hà+Nội" 
                                        target="_blank" 
                                        rel="noopener noreferrer"
                                        class="inline-flex items-center gap-2 text-blue-700 hover:text-blue-900 font-bold bg-white px-4 py-2 rounded-xl shadow-sm transition-all border border-blue-200 hover:shadow-md hover:-translate-y-0.5">
                                         <svg class="w-5 h-5 text-red-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path></svg>
                                         Bãi xe Đại học Phenikaa, Hà Đông, Hà Nội
-                                    </a>                                       
-                                      
+                                    </a>
                                 </div>
                             </div>
                         </div>
                     </div>
+
+                </div>
+
                 <div class="lg:col-span-5 bg-white p-6 sm:p-8 rounded-3xl shadow-sm border border-gray-100 sticky top-24">
                     <h3 class="text-xl font-bold text-gray-900 mb-6 border-b border-gray-100 pb-4">Tóm tắt đơn hàng #{{ $booking->id }}</h3>
                     
@@ -126,18 +156,27 @@
                             <span class="text-gray-500 text-sm">Ngày trả xe:</span>
                             <span class="font-bold text-gray-900">{{ \Carbon\Carbon::parse($booking->end_date)->format('d/m/Y') }}</span>
                         </div>
-                        <div class="pt-3 border-t border-gray-200 flex justify-between items-center">
-                            <span class="text-gray-500 text-sm">Đơn giá:</span>
-                            <span class="font-semibold text-gray-900">{{ number_format($booking->car->price_per_day, 0, ',', '.') }}đ / ngày</span>
+                        
+                        <div class="flex justify-between items-center pt-2">
+                            <span class="text-gray-500 text-sm">Giá thuê xe:</span>
+                            <span class="font-bold text-gray-900">{{ number_format($booking->total_price, 0, ',', '.') }}đ</span>
+                        </div>
+
+                        <div x-show="wantDelivery" x-collapse class="flex justify-between items-center text-sm text-gray-600 pt-1">
+                            <span class="flex items-center text-gray-500 font-medium">Phụ phí giao xe:</span>
+                            <span class="font-bold text-gray-900 ">200.000đ</span>
                         </div>
                     </div>
 
                     <div class="border-t border-gray-200 pt-6">
                         <div class="flex justify-between items-end mb-6">
                             <span class="text-gray-500 font-bold uppercase tracking-wide text-sm">Tổng thanh toán</span>
-                            <span class="text-3xl font-extrabold text-blue-600">{{ number_format($booking->total_price, 0, ',', '.') }}đ</span>
+                            <span class="text-3xl font-extrabold text-blue-600" 
+                                  x-text="new Intl.NumberFormat('vi-VN').format(basePrice + (wantDelivery ? deliveryFee : 0)) + 'đ'">
+                            </span>
                         </div>
-                        <h3 class="text-xl font-bold text-gray-900 mb-6">Phương thức thanh toán</h3>
+                        
+                        <h3 class="text-xl font-bold text-gray-900 mb-4">Phương thức thanh toán</h3>
                         
                         <div class="space-y-4">
                             <label class="flex items-center p-5 border-2 border-gray-100 hover:border-gray-300 bg-white rounded-2xl cursor-pointer transition-all has-[:checked]:border-blue-600 has-[:checked]:bg-blue-50">
@@ -153,26 +192,9 @@
                                     <span class="block text-gray-900 font-bold text-lg">Chuyển khoản VietQR</span>
                                 </div>
                             </label>
-
-                            <div id="qr_block" class="hidden mt-4 p-6 bg-blue-50 rounded-2xl border border-blue-200 text-center animate-fade-in">
-                                <h4 class="text-blue-900 font-extrabold mb-4 uppercase tracking-wide">Quét mã để thanh toán</h4>
-                                <div class="bg-white p-4 rounded-xl inline-block shadow-sm mb-4 border border-gray-100">
-                                    <img src="https://img.vietqr.io/image/MB-0963669540-compact.png?amount={{ $booking->total_price }}&addInfo=Thanh toan don xe {{ $booking->id }}&accountName=DANG HAI NAM" 
-                                         alt="VietQR" class="w-48 h-48 object-contain">
-                                </div>
-
-                                <div class="text-sm text-blue-800 space-y-2 bg-white/50 p-4 rounded-xl border border-blue-100">
-                                    <p class="flex justify-between"><span>Ngân hàng:</span> <strong>MB Bank</strong></p>
-                                    <p class="flex justify-between"><span>Chủ tài khoản:</span> <strong>Trần Thị Huyền</strong></p>
-                                    <p class="flex justify-between"><span>Số tài khoản:</span> <strong>0963669540</strong></p>
-                                    <p class="flex justify-between"><span>Số tiền:</span> <strong class="text-blue-600">{{ number_format($booking->total_price, 0, ',', '.') }}đ</strong></p>
-                                    <p class="flex justify-between"><span>Nội dung:</span> <strong>Thanh toan don xe {{ $booking->id }}</strong></p>
-                                </div>
-                                
-                                <p class="mt-4 text-xs text-blue-600 italic font-semibold">* Quý khách vui lòng chuyển đúng nội dung. Bấm "Hoàn tất đặt xe" sau khi đã chuyển khoản thành công!</p>
-                            </div>
                         </div>
                     </div>
+                    
                     <div class="pt-6">
                         <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 px-4 rounded-xl transition duration-150 shadow-sm text-center block text-lg">
                             Xác nhận đặt xe
@@ -184,5 +206,4 @@
 
         </div>
     </div>
-    
 </x-app-layout>

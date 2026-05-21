@@ -80,7 +80,17 @@ class BookingController extends Controller
             $user->phone = $request->customer_phone;
             $user->save();
         }
+        // khách chọn giao tận nơi, ycau nhập địa chỉ, cộng phí gioao hàng
+        if ($request->has('is_delivery') && $request->is_delivery == '1') {
+            $request->validate([
+                'delivery_address' => 'required|string|max:255'
+            ], [
+                'delivery_address.required' => 'Vui lòng nhập địa chỉ để chúng tôi giao xe tận nơi.'
+            ]);
 
+            $booking->delivery_address = $request->delivery_address;
+            $booking->total_price = $booking->total_price + 200000; 
+        }
         // Xử lý chuyển hướng
         if ($request->payment_method === 'bank_transfer') {
             return redirect()->route('client.bookings.history')->with([
@@ -91,6 +101,8 @@ class BookingController extends Controller
         } else {
             return redirect()->route('client.bookings.history')->with('success', ' Đặt thuê xe thành công, nhân viên sẽ gọi điện để xác nhận với bạn trong thời gian sớm nhất!');
         }
+        // Lưu đơn hàng 
+        $booking->save();
     }
     // hiện lịch sử
     public function history()
