@@ -5,7 +5,6 @@
             <div class="flex items-center gap-4 mb-4 overflow-x-auto pb-4 pt-2">
                 @foreach($brands as $brandName => $logoPath)
                     @php
-                        // Phần xử lý URL này vẫn để ở View vì nó liên quan trực tiếp đến state của UI
                         $isActive = request('brand') == $brandName;
                         $filterUrl = $isActive 
                             ? request()->fullUrlWithQuery(['brand' => null]) 

@@ -19,10 +19,35 @@
                             {{ __('Giới thiệu') }}
                         </x-nav-link>
 
-                        <x-nav-link :href="route('client.services')" :active="request()->routeIs('client.services')">
-                            {{ __('Dịch vụ') }}
-                        </x-nav-link>
+                        <div class="hidden sm:flex sm:items-center relative h-full" x-data="{ open: false }" @click.outside="open = false" @close.stop="open = false">
+                            <button @click="open = ! open" 
+                                    class="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-semibold leading-5 text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out h-full group">
+                                Dịch vụ
+                                <svg :class="{'rotate-180': open}" class="ml-1.5 h-4 w-4 fill-current text-gray-400 group-hover:text-gray-600 transition-transform duration-200" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                                </svg>
+                            </button>
 
+                            <div x-show="open"
+                                x-transition:enter="transition ease-out duration-200"
+                                x-transition:enter-start="opacity-0 scale-95 translate-y-2"
+                                x-transition:enter-end="opacity-100 scale-100 translate-y-0"
+                                x-transition:leave="transition ease-in duration-150"
+                                x-transition:leave-start="opacity-100 scale-100 translate-y-0"
+                                x-transition:leave-end="opacity-0 scale-95 translate-y-2"
+                                class="absolute top-[110%] left-0 w-60 rounded-2xl shadow-xl bg-white/70 backdrop-blur-md border border-white/60 ring-1 ring-black/5 focus:outline-none z-50 overflow-hidden"
+                                style="display: none;">
+                                
+                                <div class="py-2">
+                                    <a href="{{ route('client.dashboard', ['seats' => 4]) }}" class="block px-5 py-2.5 text-sm font-semibold text-gray-700 hover:bg-blue-50/80 hover:text-blue-700 transition-colors">Thuê xe 4 chỗ</a>
+                                    <a href="{{ route('client.dashboard', ['seats' => 7]) }}" class="block px-5 py-2.5 text-sm font-semibold text-gray-700 hover:bg-blue-50/80 hover:text-blue-700 transition-colors">Thuê xe 7 chỗ</a>
+                                    <a href="{{ route('client.dashboard', ['seats' => 16]) }}" class="block px-5 py-2.5 text-sm font-semibold text-gray-700 hover:bg-blue-50/80 hover:text-blue-700 transition-colors">Thuê xe 16 chỗ</a>
+                                    <a href="{{ route('client.dashboard', ['seats' => 29]) }}" class="block px-5 py-2.5 text-sm font-semibold text-gray-700 hover:bg-blue-50/80 hover:text-blue-700 transition-colors">Thuê xe 29 chỗ</a>
+                                    <a href="{{ route('client.dashboard', ['seats' => 45]) }}" class="block px-5 py-2.5 text-sm font-semibold text-gray-700 hover:bg-blue-50/80 hover:text-blue-700 transition-colors">Thuê xe 45 chỗ</a>
+                                    <a href="{{ route('client.dashboard', ['seats' => '11']) }}" class="block px-5 py-2.5 text-sm font-semibold text-gray-700 hover:bg-blue-50/80 hover:text-blue-700 transition-colors">Thuê xe Limousine</a>                                                              
+                                    <a href="{{ route('services.driver') }}" class="block px-5 py-2.5 text-sm font-bold text-gray-700 hover:bg-blue-100/80 transition-colors">Thuê xe có người lái</a>                                </div>
+                            </div>
+                        </div>
                         <x-nav-link :href="route('client.contact')" :active="request()->routeIs('client.contact')">
                             {{ __('Liên hệ') }}
                         </x-nav-link>
@@ -95,9 +120,21 @@
                 <x-responsive-nav-link :href="route('client.about')" :active="request()->routeIs('client.about')">
                     {{ __('Giới thiệu') }}
                 </x-responsive-nav-link>
-                <x-responsive-nav-link :href="route('client.services')" :active="request()->routeIs('client.services')">
-                    {{ __('Dịch vụ') }}
-                </x-responsive-nav-link>
+                <div x-data="{ openService: false }" class="border-l-4 border-transparent">
+                    <button @click="openService = !openService" class="w-full flex justify-between items-center pl-3 pr-4 py-2 text-left text-base font-medium text-gray-600 hover:text-gray-800 hover:bg-gray-50 focus:outline-none transition duration-150 ease-in-out">
+                        Dịch vụ
+                        <svg :class="{'rotate-180': openService}" class="ml-1 h-5 w-5 transform transition-transform text-gray-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" /></svg>
+                    </button> 
+                  <div x-show="openService" x-collapse class="bg-gray-50/50">
+                    <a href="{{ route('client.dashboard', ['seats' => 4]) }}" class="block pl-8 pr-4 py-2.5 text-sm font-medium text-gray-500 hover:text-blue-600 hover:bg-blue-50/50">Thuê xe 4 chỗ</a>
+                    <a href="{{ route('client.dashboard', ['seats' => 7]) }}" class="block pl-8 pr-4 py-2.5 text-sm font-medium text-gray-500 hover:text-blue-600 hover:bg-blue-50/50">Thuê xe 7 chỗ</a>
+                    <a href="{{ route('client.dashboard', ['seats' => 16]) }}" class="block pl-8 pr-4 py-2.5 text-sm font-medium text-gray-500 hover:text-blue-600 hover:bg-blue-50/50">Thuê xe 16 chỗ</a>
+                    <a href="{{ route('client.dashboard', ['seats' => 29]) }}" class="block pl-8 pr-4 py-2.5 text-sm font-medium text-gray-500 hover:text-blue-600 hover:bg-blue-50/50">Thuê xe 29 chỗ</a>
+                    <a href="{{ route('client.dashboard', ['seats' => 45]) }}" class="block pl-8 pr-4 py-2.5 text-sm font-medium text-gray-500 hover:text-blue-600 hover:bg-blue-50/50">Thuê xe 45 chỗ</a>
+                    <a href="{{ route('client.dashboard', ['seats' => '11']) }}" class="block pl-8 pr-4 py-2.5 text-sm font-medium text-gray-500 hover:text-blue-600 hover:bg-blue-50/50">Thuê xe Limousine</a>
+                    <a href="{{ route('services.driver') }}" class="block pl-8 pr-4 py-2.5 text-sm font-bold text-gray-700 hover:bg-blue-100/50">Thuê xe có người lái</a>
+                </div>
+                </div>
                 <x-responsive-nav-link :href="route('client.contact')" :active="request()->routeIs('client.contact')">
                     {{ __('Liên hệ') }}
                 </x-responsive-nav-link>
@@ -121,3 +158,10 @@
         </div>
     </div>
 </nav>
+<div class="fixed bottom-6 right-6 sm:bottom-8 sm:right-8 z-[9999]">
+    <a href="{{ route('client.contact') }}" 
+       class="flex items-center gap-3 bg-[#e85c2c] hover:bg-[#d04a1f] text-white px-4 py-4 sm:px-6 rounded-full shadow-2xl hover:shadow-orange-500/50 transition-all duration-300 hover:-translate-y-1 group relative">
+        <span class="absolute inset-0 rounded-full bg-[#e85c2c] opacity-40 animate-ping -z-5"></span>
+        <svg class="w-6 h-6 sm:w-7 sm:h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path></svg>
+    </a>
+</div>

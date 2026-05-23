@@ -6,6 +6,7 @@ use App\Http\Middleware\AdminMiddleware;
 use App\Http\Controllers\HomeController; 
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\Admin\BookingController as AdminBookingController;
+use App\Http\Controllers\DriverServiceController;
 
 Route::get('/', function () {
     return redirect()->route('login');
@@ -33,6 +34,7 @@ Route::post('/thanh-toan/{id}', [BookingController::class, 'processPayment'])
 Route::get('/gioi-thieu', function () { return view('client.about'); })->middleware(['auth'])->name('client.about');
 Route::get('/dich-vu', function () { return view('client.services'); })->middleware(['auth'])->name('client.services');
 Route::get('/lien-he', function () { return view('client.contact'); })->middleware(['auth'])->name('client.contact');
+Route::get('/thue-xe-co-nguoi-lai', DriverServiceController::class)->name('services.driver');
 Route::get('/lich-su', [BookingController::class, 'history'])
     ->middleware(['auth', 'verified'])
     ->name('client.bookings.history');

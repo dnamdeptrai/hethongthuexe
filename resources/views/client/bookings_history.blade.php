@@ -96,7 +96,6 @@
                 <button onclick="closeQRAndShowSuccess()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3.5 px-4 rounded-xl transition shadow-md hover:shadow-lg">
                     Tôi đã chuyển khoản xong
                 </button>
-                <p class="mt-4 text-[11px] text-gray-400 leading-tight">* Hệ thống sẽ đối soát tự động. Vui lòng không làm mới trang trong quá trình giao dịch.</p>
             </div>
         </div>
     @endif
