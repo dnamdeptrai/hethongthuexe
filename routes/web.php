@@ -7,6 +7,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\Admin\BookingController as AdminBookingController;
 use App\Http\Controllers\DriverServiceController;
+use App\Http\Controllers\Admin\DashboardController;
 
 Route::get('/', function () {
     return redirect()->route('login');
@@ -43,13 +44,15 @@ Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.up
 Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     
     // Route cho Admin
-Route::middleware(['auth', AdminMiddleware::class])->group(function () {
-Route::get('/admin/dashboard', function () {
-    return view('admin.dashboard'); 
-    })->name('admin.dashboard');
+Route::middleware(['auth', AdminMiddleware::class])
+    ->prefix('admin')    
+    ->name('admin.')    
+    ->group(function () {
+        Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+        Route::get('/bookings', [AdminBookingController::class, 'index'])->name('booking');
+        Route::patch('/bookings/{id}/status', [AdminBookingController::class, 'updateStatus'])->name('bookings.update_status');
 });
-Route::get('/admin/bookings', [AdminBookingController::class, 'index'])->name('admin.bookings.index');
-Route::patch('/admin/bookings/{id}/status', [AdminBookingController::class, 'updateStatus'])->name('admin.bookings.update_status');
 
+require __DIR__.'/auth.php';
 
 require __DIR__.'/auth.php';

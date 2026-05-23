@@ -1,0 +1,78 @@
+.admin-card {
+    background: #ffffff;
+    border-radius: 20px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    border: 1px solid #f3f4f6;
+    padding: 24px;
+}
+
+/* Thông báo */
+.alert {
+    padding: 16px;
+    border-radius: 12px;
+    margin-bottom: 24px;
+    font-weight: 600;
+    font-size: 14px;
+}
+.alert-success { background-color: #d1fae5; color: #065f46; border: 1px solid #a7f3d0; }
+
+/* Bảng dữ liệu */
+.table-responsive { overflow-x: auto; }
+.admin-table { width: 100%; border-collapse: collapse; }
+.admin-table th {
+    background-color: #f9fafb;
+    color: #6b7280;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    padding: 16px;
+    text-align: left;
+    border-bottom: 2px solid #e5e7eb;
+}
+.admin-table td { padding: 16px; font-size: 14px; color: #374151; border-bottom: 1px solid #f3f4f6; vertical-align: middle; }
+.admin-table tbody tr:hover { background-color: #f9fafb; }
+
+.fw-bold { font-weight: 700; }
+.text-dark { color: #111827; }
+.text-blue { color: #1e3a8a; }
+.text-muted { color: #6b7280; }
+.small { font-size: 12px; mt-1: margin-top 4px; }
+.text-center { text-align: center; }
+.d-inline { display: inline-block; }
+.price { font-weight: 700; color: #ea580c; }
+
+.badge {
+    padding: 6px 12px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 700;
+    display: inline-block;
+}
+/* Trạng thái đơn hàng */
+.badge-pending { background-color: #fef3c7; color: #d97706; }
+.badge-confirmed { background-color: #d1fae5; color: #059669; }
+.badge-ongoing { background-color: #dbeafe; color: #2563eb; }
+.badge-completed { background-color: #f3f4f6; color: #4b5563; }
+.badge-cancelled { background-color: #fee2e2; color: #dc2626; }
+
+/* Trạng thái giao nhận */
+.badge-outline-blue { border: 1px solid #bfdbfe; color: #2563eb; background-color: #eff6ff; }
+.badge-outline-gray { border: 1px solid #e5e7eb; color: #4b5563; background-color: #f9fafb; }
+
+.status-select {
+    padding: 8px 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #374151;
+    background-color: #ffffff;
+    cursor: pointer;
+    outline: none;
+    transition: all 0.2s;
+}
+.status-select:hover, .status-select:focus { border-color: #9ca3af; box-shadow: 0 0 0 3px rgba(156, 163, 175, 0.1); }
+
+.empty-message { text-align: center; padding: 40px; color: #9ca3af; font-style: italic; }
+
+.pagination-wrapper { margin-top: 24px; display: flex; justify-content: flex-end; }

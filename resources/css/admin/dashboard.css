@@ -1,0 +1,134 @@
+.stat-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-bottom: 32px;
+}
+
+.stat-card {
+    background: #ffffff;
+    padding: 24px;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+    border-left: 5px solid;
+    display: flex;
+    align-items: center;
+}
+
+.stat-card.revenue { border-left-color: #10b981; }
+.stat-card.pending { border-left-color: #f59e0b; }
+.stat-card.users { border-left-color: #3b82f6; }
+
+.stat-card h3 {
+    font-size: 14px;
+    color: #64748b;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.stat-number {
+    font-size: 28px;
+    font-weight: 800;
+    color: #0f172a;
+}
+
+/* Bố cục chia cột bên dưới */
+.dashboard-row {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    gap: 24px;
+}
+
+.dashboard-box {
+    background: #ffffff;
+    padding: 24px;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+}
+
+.box-title {
+    font-size: 18px;
+    color: #1e293b;
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+/* Danh sách trạng thái xe */
+.car-status-list {
+    list-style: none;
+}
+
+.car-status-list li {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 0;
+    border-bottom: 1px dashed #e2e8f0;
+}
+
+.car-status-list li:last-child {
+    border-bottom: none;
+}
+
+.status-label {
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.status-label.available { color: #10b981; }
+.status-label.rented { color: #3b82f6; }
+.status-label.maintenance { color: #ef4444; }
+
+.status-count {
+    font-weight: 700;
+    color: #334155;
+}
+
+/* Bảng hiển thị Đơn hàng */
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.admin-table th, .admin-table td {
+    padding: 14px;
+    text-align: left;
+    border-bottom: 1px solid #f1f5f9;
+    font-size: 14px;
+}
+
+.admin-table th {
+    background-color: #f8fafc;
+    color: #475569;
+    font-weight: 600;
+}
+
+.admin-table td.price {
+    font-weight: 700;
+    color: #e85c2c;
+}
+
+.btn-action {
+    display: inline-block;
+    padding: 6px 12px;
+    background-color: #eff6ff;
+    color: #2563eb;
+    text-decoration: none;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 12px;
+    transition: all 0.2s;
+}
+
+.btn-action:hover {
+    background-color: #3b82f6;
+    color: #ffffff;
+}
+
+.empty-message {
+    text-align: center;
+    color: #64748b;
+    font-style: italic;
+    padding: 20px 0;
+}
