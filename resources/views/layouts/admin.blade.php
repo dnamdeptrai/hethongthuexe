@@ -37,7 +37,7 @@
                     <div class="dropdown-menu">
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
-                            <button type="submit" class="dropdown-item">Đăng xuất hệ thống</button>
+                            <button type="submit" class="dropdown-item">Đăng xuất</button>
                         </form>
                     </div>
                 </div>

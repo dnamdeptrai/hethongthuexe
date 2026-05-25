@@ -55,7 +55,7 @@
                         </td>
                         <td>
                             <div style="color: #111827;">{{ $car->category->name ?? 'N/A' }}</div>
-                            <div style="color: #6b7280; font-size: 12px;">{{ $car->seats }} chỗ • {{ $car->transmission }}</div>
+                            <div style="color: #6b7280; font-size: 12px;">{{ $car->transmission }}</div>
                         </td>
                         <td style="font-weight: 600; color: #111827;">{{ number_format($car->price_per_day, 0, ',', '.') }} đ</td>
                         
