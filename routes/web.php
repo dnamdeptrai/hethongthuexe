@@ -8,6 +8,7 @@ use App\Http\Controllers\BookingController;
 use App\Http\Controllers\Admin\BookingController as AdminBookingController;
 use App\Http\Controllers\DriverServiceController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\CarController;
 
 Route::get('/', function () {
     return redirect()->route('login');
@@ -49,10 +50,13 @@ Route::middleware(['auth', AdminMiddleware::class])
     ->name('admin.')    
     ->group(function () {
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+        
         Route::get('/bookings', [AdminBookingController::class, 'index'])->name('booking');
         Route::patch('/bookings/{id}/status', [AdminBookingController::class, 'updateStatus'])->name('bookings.update_status');
+        
+        Route::patch('/cars/{id}/status', [CarController::class, 'updateStatus'])->name('cars.update_status');
+        Route::resource('cars', App\Http\Controllers\Admin\CarController::class);
 });
-
 require __DIR__.'/auth.php';
 
 require __DIR__.'/auth.php';

@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Quản lý Đơn đặt xe | Thuê Xe Admin')
+@section('title', 'Quản lý Đơn đặt xe')
 @section('page_title', 'Danh sách Đơn đặt xe')
 
 @push('styles')
@@ -22,6 +22,7 @@
                     <tr>
                         <th>Mã Đơn</th>
                         <th>Khách hàng</th>
+                        <th>Số điện thoại</th>
                         <th>Chi tiết xe</th>
                         <th>Giao nhận</th>
                         <th>Tổng tiền</th>
@@ -38,7 +39,9 @@
                                 <div class="fw-bold text-dark">{{ $booking->user->name }}</div>
                                 <div class="text-muted small">{{ $booking->user->email }}</div>
                             </td>
-                            
+                            <td>
+                                <div class="fw-bold text-dark">{{ $booking->user->phone }}</div>
+                            </td>
                             <td>
                                 <div class="fw-bold text-blue">{{ $booking->car->name }}</div>
                                 <div class="text-muted small">{{ \Carbon\Carbon::parse($booking->start_date)->format('d/m/Y') }} - {{ \Carbon\Carbon::parse($booking->end_date)->format('d/m/Y') }}</div>

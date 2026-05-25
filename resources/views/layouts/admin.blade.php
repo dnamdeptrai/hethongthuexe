@@ -21,8 +21,7 @@
                 <ul class="topbar-menu">
                     <li><a href="{{ route('admin.dashboard') }}" class="{{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">Bảng điều khiển</a></li>
                     <li><a href="{{ route('admin.booking') }}" class="{{ request()->routeIs('admin.bookings.*') ? 'active' : '' }}">Đơn đặt xe</a></li>
-                    <li><a href="#">Kho Xe</a></li>
-                    <li><a href="#">Khách hàng</a></li>
+                    <li><a href="{{ route('admin.cars.index') }}" class="{{ request()->routeIs('admin.cars.*') ? 'active' : '' }}">Kho Xe</a></li>                    <li><a href="#">Khách hàng</a></li>
                     <li><a href="#">Tin nhắn</a></li>
                 </ul>
             </div>
