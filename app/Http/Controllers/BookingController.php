@@ -72,15 +72,14 @@ class BookingController extends Controller
 
         // Lưu số điện thoại riêng cho đơn hàng này
         $booking->customer_phone = $request->customer_phone;
-        $booking->save();
 
-        //Lấy tài khoản đang đăng nhập và lưu số điện thoại
+        // Lấy tài khoản đang đăng nhập và lưu số điện thoại
         if ($request->has('save_phone_to_profile')) {
             $user = \App\Models\User::find(auth()->id());
             $user->phone = $request->customer_phone;
             $user->save();
         }
-        // khách chọn giao tận nơi, ycau nhập địa chỉ, cộng phí gioao hàng
+        
         if ($request->has('is_delivery') && $request->is_delivery == '1') {
             $request->validate([
                 'delivery_address' => 'required|string|max:255'
@@ -88,9 +87,21 @@ class BookingController extends Controller
                 'delivery_address.required' => 'Vui lòng nhập địa chỉ để chúng tôi giao xe tận nơi.'
             ]);
 
+            $booking->is_delivery = 1; 
             $booking->delivery_address = $request->delivery_address;
-            $booking->total_price = $booking->total_price + 200000; 
+            
+            $days = \Carbon\Carbon::parse($booking->start_date)->diffInDays(\Carbon\Carbon::parse($booking->end_date));
+            $days = $days == 0 ? 1 : $days;
+            $base_price = $days * $booking->car->price_per_day;
+            
+            $booking->total_price = $base_price + 200000; 
+        } else {
+            // Nếu không chọn giao tận nơi
+            $booking->is_delivery = 0;
+            $booking->delivery_address = null;
         }
+        $booking->save();
+
         // Xử lý chuyển hướng
         if ($request->payment_method === 'bank_transfer') {
             return redirect()->route('client.bookings.history')->with([
@@ -101,8 +112,6 @@ class BookingController extends Controller
         } else {
             return redirect()->route('client.bookings.history')->with('success', ' Đặt thuê xe thành công, nhân viên sẽ gọi điện để xác nhận với bạn trong thời gian sớm nhất!');
         }
-        // Lưu đơn hàng 
-        $booking->save();
     }
     // hiện lịch sử
     public function history()
