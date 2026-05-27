@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\CarController;
 use App\Http\Controllers\Admin\CustomerController;
 use App\Http\Controllers\Admin\MessageController;
+use App\Http\Controllers\ContactController;
 
 Route::get('/', function () {
     return redirect()->route('login');
@@ -37,8 +38,9 @@ Route::post('/thanh-toan/{id}', [BookingController::class, 'processPayment'])
     ->name('client.process_payment');
 Route::get('/gioi-thieu', function () { return view('client.about'); })->middleware(['auth'])->name('client.about');
 Route::get('/dich-vu', function () { return view('client.services'); })->middleware(['auth'])->name('client.services');
-Route::get('/lien-he', function () { return view('client.contact'); })->middleware(['auth'])->name('client.contact');
-Route::get('/thue-xe-co-nguoi-lai', DriverServiceController::class)->name('services.driver');
+
+Route::post('/contact/submit', [ContactController::class, 'store'])->name('contact.store');Route::get('/thue-xe-co-nguoi-lai', DriverServiceController::class)->name('services.driver');
+
 Route::get('/lich-su', [BookingController::class, 'history'])
     ->middleware(['auth', 'verified'])
     ->name('client.bookings.history');
@@ -46,8 +48,10 @@ Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit')
 Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
 Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-Route::post('/contact/submit', [PageController::class, 'storeContact'])->name('contact.store');
-    // Route cho Admin
+Route::get('/lien-he', [ContactController::class, 'index'])->name('client.contact');
+Route::post('/contact/submit', [ContactController::class, 'store'])->name('contact.store');
+
+// Route cho Admin
 Route::middleware(['auth', AdminMiddleware::class])
     ->prefix('admin')    
     ->name('admin.')    

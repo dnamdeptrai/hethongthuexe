@@ -1,4 +1,31 @@
 <x-app-layout>
+    @if(session('success'))
+        <div id="toast-success" class="fixed top-24 right-5 z-50 bg-white border-l-4 border-green-500 shadow-2xl rounded-xl p-4 flex items-center space-x-4 transition-all duration-500 transform translate-x-0 opacity-100" style="min-width: 300px;">
+            <div class="flex-shrink-0 bg-green-100 p-2 rounded-full">
+                <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+            </div>
+            <div class="flex-1">
+                <h4 class="text-gray-900 font-bold text-sm">Thành công!</h4>
+                <p class="text-gray-600 text-sm mt-1">{{ session('success') }}</p>
+            </div>
+            <button onclick="document.getElementById('toast-success').style.display='none'" class="text-gray-400 hover:text-gray-600 focus:outline-none">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+        </div>
+
+        <script>
+            // Tự động ẩn popup sau 4.5 giây
+            setTimeout(() => {
+                const toast = document.getElementById('toast-success');
+                if(toast) {
+                    // Thêm class để tạo hiệu ứng mờ dần và trượt ra ngoài
+                    toast.classList.add('opacity-0', 'translate-x-full');
+                    // Xóa hẳn khỏi HTML sau 0.5s (chờ hiệu ứng chạy xong)
+                    setTimeout(() => toast.remove(), 500); 
+                }
+            }, 4500);
+        </script>
+    @endif
     <div class="py-12 sm:py-20 bg-gray-50 min-h-screen">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             
