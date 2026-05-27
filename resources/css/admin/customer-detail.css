@@ -1,0 +1,66 @@
+.back-btn-container { 
+    margin-bottom: 24px; 
+}
+
+.customer-info-grid {
+    display: grid; 
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); 
+    gap: 24px; 
+    width: 100%; 
+    flex: 1;
+}
+
+.info-column-label {
+    font-size: 12px; 
+    color: #6b7280; 
+    font-weight: 700; 
+    text-transform: uppercase; 
+    margin-bottom: 6px; 
+    letter-spacing: 0.5px;
+}
+
+.info-column-value-name {
+    font-size: 20px; 
+    font-weight: 800; 
+    color: #111827;
+}
+
+.info-column-value {
+    font-size: 16px; 
+    font-weight: 600; 
+    color: #111827;
+}
+
+.booking-car-name { font-weight: 700; color: #1e3a8a; }
+.booking-car-brand { font-size: 11px; color: #6b7280; font-weight: normal; margin-top: 2px; }
+.booking-time-display { color: #374151; font-size: 13px; }
+.booking-time-to { color: #9ca3af; font-size: 11px; }
+.booking-final-price { font-weight: 700; color: #111827; }
+
+.badge-delivery-site {
+    background-color: #eff6ff; 
+    color: #2563eb; 
+    padding: 4px 10px; 
+    border-radius: 6px; 
+    font-size: 12px; 
+    font-weight: 600; 
+    border: 1px solid #bfdbfe;
+    display: inline-block;
+}
+.delivery-address-detail { 
+    color: #6b7280; 
+    font-size: 12px; 
+    margin-top: 4px; 
+    max-width: 250px; 
+    line-height: 1.4; 
+}
+.badge-pickup-site {
+    background-color: #f9fafb; 
+    color: #4b5563; 
+    padding: 4px 10px; 
+    border-radius: 6px; 
+    font-size: 12px; 
+    font-weight: 600; 
+    border: 1px solid #e5e7eb;
+    display: inline-block;
+}

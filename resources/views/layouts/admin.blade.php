@@ -21,7 +21,8 @@
                 <ul class="topbar-menu">
                     <li><a href="{{ route('admin.dashboard') }}" class="{{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">Bảng điều khiển</a></li>
                     <li><a href="{{ route('admin.booking') }}" class="{{ request()->routeIs('admin.bookings.*') ? 'active' : '' }}">Đơn đặt xe</a></li>
-                    <li><a href="{{ route('admin.cars.index') }}" class="{{ request()->routeIs('admin.cars.*') ? 'active' : '' }}">Kho Xe</a></li>                    <li><a href="#">Khách hàng</a></li>
+                    <li><a href="{{ route('admin.cars.index') }}" class="{{ request()->routeIs('admin.cars.*') ? 'active' : '' }}">Kho Xe</a></li>                      
+                    <li><a href="{{ route('admin.customers.index') }}" class="{{ request()->routeIs('admin.customers.*') ? 'active' : '' }}">Khách hàng</a></li>
                     <li><a href="#">Tin nhắn</a></li>
                 </ul>
             </div>
@@ -48,7 +49,6 @@
 
     <main class="admin-main-container">
         <div class="admin-page-header">
-            <h2 class="page-title">@yield('page_title', 'Hệ thống quản trị')</h2>
         </div>
         
         <div class="admin-content">

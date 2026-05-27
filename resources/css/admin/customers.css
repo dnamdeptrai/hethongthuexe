@@ -1,0 +1,47 @@
+.text-center { text-align: center; }
+.search-form { display: flex; gap: 8px; }
+.search-input { padding: 8px 12px; height: 38px; width: 280px; }
+.search-btn { height: 38px; padding: 8px 16px; margin: 0; display: inline-flex; align-items: center; }
+.empty-row-text { text-align: center; padding: 40px; color: #9ca3af; font-style: italic; }
+
+.clickable-row {
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+}
+.clickable-row:hover {
+    background-color: #f8fafc !important; 
+}
+
+.customer-id { font-weight: 700; color: #6b7280; }
+.customer-info-wrapper { display: flex; align-items: center; gap: 12px; }
+
+.customer-name-text {
+    color: #1e3a8a; 
+    font-weight: 700; 
+    transition: color 0.2s ease;
+}
+.clickable-row:hover .customer-name-text {
+    color: #1e40af; 
+}
+
+.contact-phone { color: #111827; font-weight: 600; }
+.contact-email { color: #6b7280; font-size: 12px; margin-top: 2px; }
+.date-text { color: #4b5563; font-size: 14px; }
+
+.badge-count {
+    background-color: #f3f4f6; 
+    padding: 4px 12px; 
+    border-radius: 999px; 
+    font-weight: 700; 
+    font-size: 13px; 
+    color: #374151;
+    display: inline-block;
+}
+.badge-status-active {
+    background-color: #d1fae5; 
+    color: #059669;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+}

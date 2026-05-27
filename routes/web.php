@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\BookingController as AdminBookingController;
 use App\Http\Controllers\DriverServiceController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\CarController;
+use App\Http\Controllers\Admin\CustomerController;
 
 Route::get('/', function () {
     return redirect()->route('login');
@@ -56,6 +57,9 @@ Route::middleware(['auth', AdminMiddleware::class])
         
         Route::patch('/cars/{id}/status', [CarController::class, 'updateStatus'])->name('cars.update_status');
         Route::resource('cars', App\Http\Controllers\Admin\CarController::class);
+
+        Route::resource('customers', App\Http\Controllers\Admin\CustomerController::class);
+        Route::get('/customers/{id}', [CustomerController::class, 'show'])->name('customers.show');
 });
 require __DIR__.'/auth.php';
 
