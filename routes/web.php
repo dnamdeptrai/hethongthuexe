@@ -10,6 +10,7 @@ use App\Http\Controllers\DriverServiceController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\CarController;
 use App\Http\Controllers\Admin\CustomerController;
+use App\Http\Controllers\Admin\MessageController;
 
 Route::get('/', function () {
     return redirect()->route('login');
@@ -44,7 +45,8 @@ Route::get('/lich-su', [BookingController::class, 'history'])
 Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
 Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
 Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-    
+
+Route::post('/contact/submit', [PageController::class, 'storeContact'])->name('contact.store');
     // Route cho Admin
 Route::middleware(['auth', AdminMiddleware::class])
     ->prefix('admin')    
@@ -60,6 +62,8 @@ Route::middleware(['auth', AdminMiddleware::class])
 
         Route::resource('customers', App\Http\Controllers\Admin\CustomerController::class);
         Route::get('/customers/{id}', [CustomerController::class, 'show'])->name('customers.show');
+
+        Route::get('/messages', [MessageController::class, 'index'])->name('messages.index');
 });
 require __DIR__.'/auth.php';
 

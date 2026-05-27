@@ -11,8 +11,7 @@
                 
                 <div class="lg:col-span-7 bg-white p-8 sm:p-10 rounded-3xl shadow-sm border border-gray-100">
                     <h3 class="text-2xl font-bold text-gray-900 mb-6">Gửi tin nhắn cho chúng tôi</h3>
-                    <form action="#" method="POST" class="space-y-6">
-                        @csrf <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <form action="{{ route('contact.store') }}" method="POST" class="space-y-6">                        @csrf <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
                             <div>
                                 <label class="block text-sm font-bold text-gray-700 mb-2">Họ và tên</label>
                                 <input type="text" 

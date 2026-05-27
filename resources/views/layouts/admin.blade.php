@@ -23,8 +23,7 @@
                     <li><a href="{{ route('admin.booking') }}" class="{{ request()->routeIs('admin.bookings.*') ? 'active' : '' }}">Đơn đặt xe</a></li>
                     <li><a href="{{ route('admin.cars.index') }}" class="{{ request()->routeIs('admin.cars.*') ? 'active' : '' }}">Kho Xe</a></li>                      
                     <li><a href="{{ route('admin.customers.index') }}" class="{{ request()->routeIs('admin.customers.*') ? 'active' : '' }}">Khách hàng</a></li>
-                    <li><a href="#">Tin nhắn</a></li>
-                </ul>
+                    <li><a href="{{ route('admin.messages.index') }}" class="{{ request()->routeIs('admin.messages.*') ? 'active' : '' }}">Tin nhắn</a></li>                </ul>
             </div>
 
             <div class="topbar-right">
