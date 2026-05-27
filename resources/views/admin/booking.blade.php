@@ -10,6 +10,14 @@
 @section('content')
     <div class="admin-card">
         
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+            <h3 style="margin: 0; font-size: 18px; color: #111827;">Tất cả Đơn đặt xe</h3>
+            
+            <form action="{{ route('admin.booking') }}" method="GET" style="display: flex; gap: 8px;">
+                <input type="text" name="search" value="{{ request('search') }}" placeholder="Tìm tên khách, SĐT, Mã đơn..." style="padding: 8px 12px; height: 38px; width: 280px; border: 1px solid #d1d5db; border-radius: 6px; outline: none;">
+                <button type="submit" class="btn-secondary" style="height: 38px; padding: 0 16px; border-radius: 6px; border: none; cursor: pointer; display: flex; align-items: center;">Tìm kiếm</button>
+            </form>
+        </div>
         @if(session('success'))
             <div class="alert alert-success">
                 {{ session('success') }}
@@ -36,14 +44,14 @@
                             <td><strong>#{{ $booking->id }}</strong></td>
                             
                             <td>
-                                <div class="fw-bold text-dark">{{ $booking->user->name }}</div>
-                                <div class="text-muted small">{{ $booking->user->email }}</div>
+                                <div class="fw-bold text-dark">{{ $booking->user->name ?? 'N/A' }}</div>
+                                <div class="text-muted small">{{ $booking->user->email ?? 'N/A' }}</div>
                             </td>
                             <td>
-                                <div class="fw-bold text-dark">{{ $booking->user->phone }}</div>
+                                <div class="fw-bold text-dark">{{ $booking->user->phone ?? 'Chưa cập nhật' }}</div>
                             </td>
                             <td>
-                                <div class="fw-bold text-blue">{{ $booking->car->name }}</div>
+                                <div class="fw-bold text-blue">{{ $booking->car->name ?? 'Xe đã xóa' }}</div>
                                 <div class="text-muted small">{{ \Carbon\Carbon::parse($booking->start_date)->format('d/m/Y') }} - {{ \Carbon\Carbon::parse($booking->end_date)->format('d/m/Y') }}</div>
                             </td>
 
@@ -85,14 +93,16 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="7" class="empty-message">Chưa có đơn đặt xe nào trong hệ thống.</td>
+                            <td colspan="8" class="empty-message" style="text-align: center; padding: 40px; color: #9ca3af; font-style: italic;">
+                                {{ request('search') ? 'Không tìm thấy đơn đặt xe nào phù hợp.' : 'Chưa có đơn đặt xe nào trong hệ thống.' }}
+                            </td>
                         </tr>
                     @endforelse
                 </tbody>
             </table>
         </div>
 
-        <div class="pagination-wrapper">
+        <div class="pagination-wrapper mt-4">
             {{ $bookings->links() }}
         </div>
     </div>

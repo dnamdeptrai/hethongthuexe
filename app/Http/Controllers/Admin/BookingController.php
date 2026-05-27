@@ -8,10 +8,21 @@ use App\Models\Booking;
 
 class BookingController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $bookings = Booking::with(['user', 'car'])->orderBy('created_at', 'desc')->paginate(10);
-        return view('admin.booking', compact('bookings'));
+        $search = $request->get('search');
+        $query = Booking::with(['user', 'car'])->orderBy('created_at', 'desc');
+        if ($search) {
+            $query->where(function($q) use ($search) {
+                $q->where('id', 'like', '%' . $search . '%')
+                  ->orWhereHas('user', function($userQuery) use ($search) {
+                      $userQuery->where('name', 'like', '%' . $search . '%')
+                                ->orWhere('phone', 'like', '%' . $search . '%');
+                  });
+            });
+        }
+        $bookings = $query->paginate(10)->appends(['search' => $search]);
+        return view('admin.booking', compact('bookings', 'search'));
     }
 
     public function updateStatus(Request $request, $id)
