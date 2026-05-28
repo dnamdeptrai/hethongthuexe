@@ -70,10 +70,26 @@ Route::middleware(['auth', AdminMiddleware::class])
 
         Route::get('/messages', [MessageController::class, 'index'])->name('messages.index');
 
-        Route::get('/setup-db', function () {
+        Route::get('/fix-db', function () {
+        try {
+            Artisan::call('config:clear');
+            $configClear = Artisan::output();
+            
+            Artisan::call('cache:clear');
+            $cacheClear = Artisan::output();
+
             Artisan::call('migrate', ['--force' => true]);
-            return 'Tạo bảng Database thành công.';
-        });
+            $migrate = Artisan::output();
+
+            return "<h1> Xog</h1>" .
+                "<b>Xóa cấu hình cũ:</b> " . $configClear . "<br>" .
+                "<b>Xóa cache:</b> " . $cacheClear . "<br>" .
+                "<b>Tạo Database:</b> " . $migrate;
+                
+        } catch (\Exception $e) {
+            return "<h1> VẪN CÒN LỖI:</h1>" . $e->getMessage();
+        }
+});
 });
 require __DIR__.'/auth.php';
 
