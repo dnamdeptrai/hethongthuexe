@@ -13,6 +13,8 @@ use App\Http\Controllers\Admin\CustomerController;
 use App\Http\Controllers\Admin\MessageController;
 use App\Http\Controllers\ContactController;
 
+use Illuminate\Support\Facades\Artisan;
+
 Route::get('/', function () {
     return redirect()->route('login');
 });
@@ -67,6 +69,11 @@ Route::middleware(['auth', AdminMiddleware::class])
         Route::resource('customers', App\Http\Controllers\Admin\CustomerController::class);
 
         Route::get('/messages', [MessageController::class, 'index'])->name('messages.index');
+
+        Route::get('/setup-db', function () {
+            Artisan::call('migrate', ['--force' => true]);
+            return 'Tạo bảng Database thành công.';
+        });
 });
 require __DIR__.'/auth.php';
 
