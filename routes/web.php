@@ -12,7 +12,7 @@ use App\Http\Controllers\Admin\CarController;
 use App\Http\Controllers\Admin\CustomerController;
 use App\Http\Controllers\Admin\MessageController;
 use App\Http\Controllers\ContactController;
-
+use App\Http\Controllers\GoogleAuthController;
 use Illuminate\Support\Facades\Artisan;
 
 Route::get('/', function () {
@@ -52,7 +52,8 @@ Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.
 
 Route::get('/lien-he', [ContactController::class, 'index'])->name('client.contact');
 Route::post('/contact/submit', [ContactController::class, 'store'])->name('contact.store');
-
+Route::get('/auth/google', [GoogleAuthController::class, 'redirect'])->name('google.login');
+Route::get('/auth/google/callback', [GoogleAuthController::class, 'callback']);
 // Route cho Admin
 Route::middleware(['auth', AdminMiddleware::class])
     ->prefix('admin')    

@@ -73,22 +73,27 @@
                         </button>
                     </div>
                 </form>
-                <div class="mt-6 flex items-center justify-center animate-slide-up delay-400">
-                    <div class="border-t border-gray-200 w-full"></div>
-                    <span class="px-3 text-sm text-gray-500 bg-white">Hoặc</span>
-                    <div class="border-t border-gray-200 w-full"></div>
+                <div class="relative my-6">
+                    <div class="absolute inset-0 flex items-center">
+                        <div class="w-full border-t border-gray-300"></div>
+                    </div>
+                    <div class="relative flex justify-center text-sm">
+                        <span class="px-2 bg-white text-gray-500">Hoặc</span>
+                    </div>
                 </div>
 
-                <div class="mt-6 animate-slide-up delay-500">
-                    <a href="#" onclick="alert('Chức năng làm sau'); return false;" class="w-full flex items-center justify-center py-3 px-4 border border-gray-300 rounded-xl shadow-sm text-sm font-semibold text-gray-700 bg-white hover:bg-gray-50 transition-colors duration-150">
-                        <svg class="h-5 w-5 mr-2" viewBox="0 0 24 24">
-                            <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
-                            <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
-                            <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
-                            <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
-                        </svg>
-                        Tiếp tục với Google
-                    </a>
+                <a href="{{ route('google.login') }}" 
+                class="flex items-center justify-center gap-3 w-full px-4 py-2.5 border border-gray-300 rounded-lg shadow-sm bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 hover:border-gray-400 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    
+                    <svg class="h-5 w-5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path fill="#EA4335" d="M5.266 9.765A7.077 7.077 0 0 1 12 4.909c1.69 0 3.218.6 4.418 1.582L19.91 3C17.782 1.145 15.055 0 12 0 7.33 0 3.353 2.641 1.41 6.51l3.856 3.255z"/>
+                        <path fill="#34A853" d="M16.04 15.345c-1.077.732-2.432 1.164-4.04 1.164-3.09 0-5.723-2.036-6.655-4.823L1.455 14.93C3.427 18.836 7.418 21.5 12 21.5c3.082 0 5.927-1.127 8.082-3.127l-4.123-3.028z"/>
+                        <path fill="#4285F4" d="M23.5 12c0-.75-.064-1.477-.182-2.182H12v4.364h6.455a5.54 5.54 0 0 1-2.414 3.636l4.123 3.028C22.582 18.523 23.5 15.51 23.5 12z"/>
+                        <path fill="#FBBC05" d="M5.345 11.686A7.004 7.004 0 0 1 5.345 9.76l-3.855-3.25A11.944 11.944 0 0 0 0 12c0 2.055.518 4.01 1.432 5.73l3.913-3.045a7.042 7.042 0 0 1-.055-2.999z"/>
+                    </svg>
+                    
+                    <span>Tiếp tục với Google</span>
+                </a>
                 </div>
                 <div class="text-center mt-6 pt-4 border-t border-gray-100 animate-slide-up delay-500">
                     <p class="text-sm text-gray-600">
