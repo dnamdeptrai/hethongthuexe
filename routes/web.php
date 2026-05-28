@@ -14,6 +14,7 @@ use App\Http\Controllers\Admin\MessageController;
 use App\Http\Controllers\ContactController;
 
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return redirect()->route('login');
@@ -71,10 +72,15 @@ Route::middleware(['auth', AdminMiddleware::class])
         Route::get('/messages', [MessageController::class, 'index'])->name('messages.index');
 
         Route::get('/setup-db', function () {
-            Artisan::call('config:clear');
-            Artisan::call('cache:clear');
-            Artisan::call('migrate', ['--force' => true]);
-            return 'Xoá bộ nhớ đệm và Tạo Database thành công!';
+            try {
+                Artisan::call('config:clear');
+                Artisan::call('cache:clear');
+                Artisan::call('migrate', ['--force' => true]);
+                
+                return '<h1> Xoá bộ nhớ đệm và Tạo Database thành công!</h1>';
+            } catch (\Exception $e) {
+                return '<h1> Lỗi:</h1>' . $e->getMessage();
+            }
         });
 });
 require __DIR__.'/auth.php';
