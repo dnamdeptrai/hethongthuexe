@@ -9,8 +9,8 @@ export default defineConfig({
                 'resources/css/admin/layout.css', 
                 'resources/css/admin/dashboard.css', 
                 'resources/css/admin/booking.css', 
-                'resources/css/admin/car.css', 
-                'resources/css/admin/customer.css'],
+                'resources/css/admin/cars.css', 
+                'resources/css/admin/customers.css'],
             
             refresh: true,
         }),
