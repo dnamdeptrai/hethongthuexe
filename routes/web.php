@@ -14,7 +14,6 @@ use App\Http\Controllers\Admin\MessageController;
 use App\Http\Controllers\ContactController;
 
 use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return redirect()->route('login');
