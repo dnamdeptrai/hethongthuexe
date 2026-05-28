@@ -65,7 +65,6 @@ Route::middleware(['auth', AdminMiddleware::class])
         Route::resource('cars', App\Http\Controllers\Admin\CarController::class);
 
         Route::resource('customers', App\Http\Controllers\Admin\CustomerController::class);
-        Route::get('/customers/{id}', [CustomerController::class, 'show'])->name('customers.show');
 
         Route::get('/messages', [MessageController::class, 'index'])->name('messages.index');
 });
