@@ -2,6 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
+body, input, button, select, textarea, span, h1, h2, h3, h4, h5, h6, p, a, div {
+    font-family: 'Inter', sans-serif !important;
+}
 @layer utilities {
   .animate-slide-up {
     animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
