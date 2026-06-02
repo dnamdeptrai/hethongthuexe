@@ -4,7 +4,7 @@
 @section('page_title', 'Danh sách Khách Hàng')
 
 @push('styles')
-    @vite(['resources/css/admin/cars.css', 'resources/css/admin/customer.css'])
+    @vite(['resources/css/admin/cars.css', 'resources/css/admin/customers.css'])
 @endpush
 
 @section('content')
