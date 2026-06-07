@@ -1,0 +1,80 @@
+{
+  "resources/css/admin/booking.css": {
+    "file": "assets/booking-BK9Qdg6s.css",
+    "name": "booking",
+    "names": [
+      "booking.css"
+    ],
+    "src": "resources/css/admin/booking.css",
+    "isEntry": true
+  },
+  "resources/css/admin/cars.css": {
+    "file": "assets/cars-CntTrzAh.css",
+    "name": "cars",
+    "names": [
+      "cars.css"
+    ],
+    "src": "resources/css/admin/cars.css",
+    "isEntry": true
+  },
+  "resources/css/admin/customer-detail.css": {
+    "file": "assets/customer-detail-D2gShm72.css",
+    "name": "customer-detail",
+    "names": [
+      "customer-detail.css"
+    ],
+    "src": "resources/css/admin/customer-detail.css",
+    "isEntry": true
+  },
+  "resources/css/admin/customers.css": {
+    "file": "assets/customers-BXzYwYkc.css",
+    "name": "customers",
+    "names": [
+      "customers.css"
+    ],
+    "src": "resources/css/admin/customers.css",
+    "isEntry": true
+  },
+  "resources/css/admin/dashboard.css": {
+    "file": "assets/dashboard-C8OyEIDL.css",
+    "name": "dashboard",
+    "names": [
+      "dashboard.css"
+    ],
+    "src": "resources/css/admin/dashboard.css",
+    "isEntry": true
+  },
+  "resources/css/admin/layout.css": {
+    "file": "assets/layout-3n24u6kT.css",
+    "name": "layout",
+    "names": [
+      "layout.css"
+    ],
+    "src": "resources/css/admin/layout.css",
+    "isEntry": true
+  },
+  "resources/css/admin/messages.css": {
+    "file": "assets/messages-mddgLKix.css",
+    "name": "messages",
+    "names": [
+      "messages.css"
+    ],
+    "src": "resources/css/admin/messages.css",
+    "isEntry": true
+  },
+  "resources/css/app.css": {
+    "file": "assets/app-C9zy-l4H.css",
+    "name": "app",
+    "names": [
+      "app.css"
+    ],
+    "src": "resources/css/app.css",
+    "isEntry": true
+  },
+  "resources/js/app.js": {
+    "file": "assets/app-C4AtG3Vp.js",
+    "name": "app",
+    "src": "resources/js/app.js",
+    "isEntry": true
+  }
+}
