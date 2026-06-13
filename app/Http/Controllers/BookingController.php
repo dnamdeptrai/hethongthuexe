@@ -2,46 +2,64 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Booking;
 use App\Models\Car;
-use Carbon\Carbon; 
+use App\Services\BookingService;
+use Carbon\Carbon;
+use Illuminate\Http\Request;
 
 class BookingController extends Controller
 {
+    public function __construct(private readonly BookingService $bookingService)
+    {
+    }
+
     // luu đơn đặt xe
     public function store(Request $request)
     {
         // Validation
         $request->validate([
             'car_id' => 'required|exists:cars,id',
+            'driver_name' => 'required|string|max:255',
+            'phone' => ['required', 'regex:/^[0-9]{9,11}$/'],
             'start_date' => 'required|date|after_or_equal:today',
-            'end_date' => 'required|date|after_or_equal:start_date',
+            'end_date' => 'required|date|after:start_date',
         ], [
             'start_date.after_or_equal' => 'Lỗi: Ngày nhận xe không được nằm trong quá khứ.',
-            'end_date.after_or_equal' => 'Lỗi: Ngày trả xe phải sau hoặc cùng ngày với ngày nhận.',
+            'end_date.after' => 'Lỗi: Ngày trả xe phải sau ngày nhận.',
+            'phone.regex' => 'Số điện thoại phải có từ 9 đến 11 chữ số.',
         ]);
 
         // tính tiền
-        $car = Car::findOrFail($request->car_id);
+        $car = Car::query()
+            ->whereKey($request->integer('car_id'))
+            ->where('status', 'available')
+            ->first();
+
+        if ($car === null) {
+            return back()
+                ->withErrors(['car_id' => 'Xe đã được đặt hoặc đang bảo dưỡng.'])
+                ->withInput();
+        }
         
         $start = Carbon::parse($request->start_date);
         $end = Carbon::parse($request->end_date);
         
         // Tính số ngày thuê
-        $days = $start->diffInDays($end);
-        if ($days == 0) {
-            $days = 1;
-        }
-
-        $total_price = $days * $car->price_per_day;
+        $totalPrice = $this->bookingService->calculateTotalPrice(
+            $start,
+            $end,
+            (float) $car->price_per_day
+        );
 
         $booking = Booking::create([
             'user_id' => auth()->id(), 
             'car_id' => $car->id,
+            'driver_name' => $request->string('driver_name')->toString(),
+            'phone' => $request->string('phone')->toString(),
             'start_date' => $start,
             'end_date' => $end,
-            'total_price' => $total_price,
+            'total_price' => $totalPrice,
             'status' => 'pending' 
         ]);
         return redirect()->route('client.checkout', $booking->id);

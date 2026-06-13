@@ -10,7 +10,8 @@ class Booking extends Model
     use HasFactory;
     // cho lưu vào db
     protected $fillable = [
-        'user_id', 'car_id', 'start_date', 'end_date', 'total_price', 'status', 'customer_phone','delivery_address'
+        'user_id', 'car_id', 'driver_name', 'phone', 'start_date', 'end_date',
+        'total_price', 'status', 'customer_phone', 'delivery_address',
     ];
     public function user()
     {

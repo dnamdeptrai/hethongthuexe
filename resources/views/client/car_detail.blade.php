@@ -44,6 +44,18 @@
 
                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 <div>
+                                    <label for="driver_name" class="block text-xs font-bold uppercase text-gray-700 mb-2 tracking-wider">Họ tên người lái</label>
+                                    <input type="text" id="driver_name" name="driver_name" value="{{ old('driver_name', auth()->user()->name) }}" required class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition text-sm bg-white">
+                                </div>
+
+                                <div>
+                                    <label for="phone" class="block text-xs font-bold uppercase text-gray-700 mb-2 tracking-wider">Số điện thoại</label>
+                                    <input type="text" id="phone" name="phone" value="{{ old('phone', auth()->user()->phone) }}" required pattern="[0-9]{9,11}" class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition text-sm bg-white">
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <div>
                                     <label class="block text-xs font-bold uppercase text-gray-700 mb-2 tracking-wider">Ngày nhận xe</label>
                                     <input type="text" id="start_date" name="start_date" placeholder="Chọn ngày" required class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition text-sm bg-white cursor-pointer">
                                 </div>
